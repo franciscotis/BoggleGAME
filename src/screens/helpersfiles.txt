@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/15864762/pyqt4-how-do-i-compile-and-import-a-qrc-file-into-my-program
+
+https://www.tutorialspoint.com/pyqt/pyqt_using_qt_designer.htm
+
+https://nikolak.com/pyqt-qt-designer-getting-started/

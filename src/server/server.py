@@ -1,20 +1,20 @@
 import socket, threading,json,sys
-
+salas = {"Sala 01" : [],"Sala 02" : [],"Sala 03" : [],"Sala 04" : [],"Sala 05" : []}
+nicks = {}
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
         threading.Thread.__init__(self)
         self.csocket = clientsocket
         print("New connection added: ", clientAddress)
-        self.salas = {1: {"Sala 01" : []}, 2:{"Sala 02" : []},3:{"Sala 03" : []},4:{"Sala 04" : []},5:{"Sala 05" : []}}
 
 
     def createroom(self,ip):
         tamanho = len(self.salas.keys())
-        self.salas[tamanho+1] = []
-        self.salas[tamanho+1].append(ip)
+        salas[tamanho+1] = []
+        salas[tamanho+1].append(ip)
 
     def showrooms(self):
-        return self.salas
+        return salas
 
 
     def run(self):
@@ -25,6 +25,7 @@ class ClientThread(threading.Thread):
             data = self.csocket.recv(8)
             if(data.decode() == "Salas"):
                 print(data)
+                print(self.showrooms())
                 data_string = json.dumps(self.showrooms())
                 self.csocket.send(bytes(data_string,'UTF-8'))
             elif(data.decode() == "NovaSala"):
@@ -32,8 +33,14 @@ class ClientThread(threading.Thread):
                 data = self.csocket.recv(16)
                 print(data)
                 self.csocket.send(bytes(msg, 'UTF-8'))
-                self.salas[len(self.salas)+1] = {data.decode() : []}
-                print(self.salas)
+                salas["Teste"] = []
+                salas[str(data.decode())] = []
+                print(salas)
+            elif(data.decode() == "Nick"):
+                print(data)
+                data = self.csocket.recv(16)
+                nicks[clientAddress[0]] = data.decode()
+                print(nicks)
 
     def next_power_of_2(self,x):
         return 1 if x == 0 else 2 ** (x - 1).bit_length()

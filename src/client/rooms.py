@@ -1,12 +1,10 @@
 import socket,threading,json
 from PyQt5 import QtCore, QtGui, QtWidgets
-from salas import Ui_Form
-from criarsala import Ui_CriarSala
+from salas import ClassSalas
+import socket
 class Rooms:
-    def __init__(self,ip,porta):
-        self.conexao = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.conexao.connect((ip, porta))
-
+    def __init__(self,conexao):
+        self.conexao = conexao
 
     def getSalas(self):
         self.ui.listWidget.clear()
@@ -14,31 +12,22 @@ class Rooms:
         dado = self.conexao.recv(1024)
         self.salas = json.loads(dado)
         for a,value in self.salas.items():
-            for b,value in value.items():
-                self.ui.listWidget.addItem(b)
+                self.ui.listWidget.addItem(a)
+
 
     def interface(self):
         import sys
         app = QtWidgets.QApplication(sys.argv)
         Form = QtWidgets.QWidget()
-        self.ui = Ui_Form()
+        self.ui = ClassSalas()
         self.ui.setupUi(Form)
         self.getSalas()
-        th = threading.Thread(target=self.teste())
-        th.start()
+        self.ui.btntest.clicked.connect(self.getSalas)
         Form.show()
         sys.exit(app.exec_())
 
-    def teste(self):
-        while (self.ui.teste()):
-            print(self.ui.teste())
-            self.getSalas()
 
 
-salas = Rooms("localhost",8080)
-t = threading.Thread(target=salas.interface())
-t.start()
-print("hey")
 
 
 

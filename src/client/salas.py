@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from criarsala import Ui_CriarSala
-class Ui_Form(object):
+class ClassSalas(object):
     def setupUi(self, Form):
         self.cont = False
         Form.setObjectName("Form")
@@ -26,6 +26,9 @@ class Ui_Form(object):
         self.pushButton.setGeometry(QtCore.QRect(210, 440, 131, 51))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.buttonAction)
+        self.btntest = QtWidgets.QPushButton(Form)
+        self.btntest.setGeometry(QtCore.QRect(1, 444, 135, 30))
+        self.btntest.setObjectName("btntest")
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -40,13 +43,4 @@ class Ui_Form(object):
         self.ui = Ui_CriarSala()
         self.ui.setupUi(self.window)
         self.window.show()
-        self.cont = True
-
-    def teste(self):
-        if (self.cont == True):
-            self.cont = False
-            return True
-        else:
-            return self.cont
-
 

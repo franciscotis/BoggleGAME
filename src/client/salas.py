@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from criarsala import Ui_CriarSala
 class Ui_SalasDisponiveis(object):
         def setupUi(self, SalasDisponiveis):
+            self.this = SalasDisponiveis
             SalasDisponiveis.setObjectName("SalasDisponiveis")
             SalasDisponiveis.resize(591, 514)
             SalasDisponiveis.setStyleSheet("background-color: rgb(93, 177, 255);")
@@ -46,14 +47,10 @@ class Ui_SalasDisponiveis(object):
             QtCore.QMetaObject.connectSlotsByName(SalasDisponiveis)
 
         def buttonAction(self):
-            for a in self.listWidget.selectedItems():
-                print (a.text())
             self.window = QtWidgets.QMainWindow()
             self.ui = Ui_CriarSala()
             self.ui.setupUi(self.window)
             self.window.show()
-
-
 
 
         def retranslateUi(self, SalasDisponiveis):

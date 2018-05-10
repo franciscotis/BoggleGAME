@@ -1,5 +1,5 @@
 import socket, threading,json,sys
-salas = {"Sala 01" : [],"Sala 02" : [],"Sala 03" : [],"Sala 04" : [],"Sala 05" : []}
+salas = {"Sala 01": [],"Sala 02": [],"Sala 03": [],"Sala 04": [],"Sala 05": []}
 nicks = {}
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
@@ -41,6 +41,28 @@ class ClientThread(threading.Thread):
                 data = self.csocket.recv(16)
                 nicks[clientAddress[0]] = data.decode()
                 print(nicks)
+            elif(data.decode() == "Espera"):
+                print(data.decode())
+                data = self.csocket.recv(16)
+                print(data.decode())
+                for a,b in self.showrooms().items():
+                    if(a == data.decode()):
+                        print(a)
+                        pers = []
+                        for s in salas[a]: # salas[a] = array
+                            pers.append(s)
+                        print(pers)
+                        data_str = json.dumps(pers)
+                        self.csocket.send(bytes(data_str, 'UTF-8'))
+            elif(data.decode() == "Escolha"):
+                print(data.decode())
+                data = self.csocket.recv(16)
+                print(data)
+                for a,b in self.showrooms().items():
+                    if(a == data.decode()):
+                        salas[a].append(nicks[clientAddress[0]])
+                        print(salas)
+
 
     def next_power_of_2(self,x):
         return 1 if x == 0 else 2 ** (x - 1).bit_length()

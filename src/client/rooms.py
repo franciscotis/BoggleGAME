@@ -1,9 +1,11 @@
 import socket,threading,json
 from PyQt5 import QtCore, QtGui, QtWidgets
 from salas import Ui_SalasDisponiveis
+from waitlist import Waitlist
 class Rooms:
     def __init__(self,conexao):
         self.conexao = conexao
+        self.wait = Waitlist(self.conexao)
 
     def getSalas(self):
         self.ui.listWidget.clear()
@@ -18,3 +20,13 @@ class Rooms:
         self.ui.setupUi(Form)
         self.getSalas()
         self.ui.refresh.clicked.connect(self.getSalas)
+        self.ui.btnBegin.clicked.connect(self.waitlist)
+
+    def waitlist(self):
+        for self.a in self.ui.listWidget.selectedItems():
+            self.conexao.sendall(bytes("Escolha", 'UTF-8'))
+            self.conexao.sendall(bytes(self.a.text(),'UTF-8'))
+        self.Form = QtWidgets.QMainWindow()
+        self.wait.interface(self.Form,self.a.text())
+        self.Form.show()
+        self.ui.this.hide()

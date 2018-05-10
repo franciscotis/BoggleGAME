@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="newPrefix">
     <file>img/BoggleIcon.png</file>
+    <file>img/13815419-white-interior-of-vintage-room-from-gray-grunge-wallpaper-wall-white-picture-frame-and-old-wooden-fl.jpg</file>
     <file>img/bg.jpg</file>
   </qresource>
 </RCC>

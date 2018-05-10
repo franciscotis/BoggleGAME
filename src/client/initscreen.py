@@ -8,9 +8,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from rooms import Rooms
-import socket
+import socket,sys,json
 class Ui_TelaIniti(object):
-    def __init__(self,ip,porta):
+    def __init__(self, ip, porta):
         self.conexao = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.conexao.connect((ip, porta))
         self.salas = Rooms(self.conexao)
@@ -35,16 +35,16 @@ class Ui_TelaIniti(object):
         self.btnentrar = QtWidgets.QPushButton(TelaIniti)
         self.btnentrar.setGeometry(QtCore.QRect(230, 300, 75, 23))
         self.btnentrar.setObjectName("btnentrar")
+        self.retranslateUi(TelaIniti)
+        QtCore.QMetaObject.connectSlotsByName(TelaIniti)
         self.btnentrar.clicked.connect(self.enviaDadoServidor)
         self.btnentrar.clicked.connect(self.buttonAction)
 
-        self.retranslateUi(TelaIniti)
-        QtCore.QMetaObject.connectSlotsByName(TelaIniti)
-
     def buttonAction(self):
-        self.salas.interface()
+        self.Form = QtWidgets.QMainWindow()
+        self.salas.interface(self.Form)
+        self.Form.show()
         self.tela.hide()
-
 
     def enviaDadoServidor(self):
         self.conexao.sendall(bytes("Nick", 'UTF-8'))
@@ -60,10 +60,4 @@ class Ui_TelaIniti(object):
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.btnentrar.setText(_translate("TelaIniti", "ENTRE"))
 
-
 import resource_rc
-
-
-
-
-

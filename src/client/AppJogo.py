@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import socket
 import socket,threading,json
-
 from initscreen import Ui_TelaIniti
 if __name__ == "__main__":
     import sys

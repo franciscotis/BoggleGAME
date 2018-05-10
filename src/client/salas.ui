@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>SalasDisponiveis</class>
+ <widget class="QWidget" name="SalasDisponiveis">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,24 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>90</y>
-     <width>431</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>35</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>SALAS DISPONÍVEIS</string>
-   </property>
-  </widget>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(93, 177, 255);</string>
+  </property>
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
@@ -41,20 +26,83 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btnCreate">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>150</x>
      <y>440</y>
      <width>131</width>
      <height>51</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Sitka Text</family>
+    </font>
+   </property>
    <property name="text">
     <string>CRIAR SALA</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnBegin">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>440</y>
+     <width>131</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sitka Text</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>COMEÇAR</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="imgboggle">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>10</y>
+     <width>211</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/newPrefix/img/BoggleIcon.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="refresh">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>110</y>
+     <width>471</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Letter Gothic Std</family>
+     <pointsize>35</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>SALAS DISPONÍVEIS</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

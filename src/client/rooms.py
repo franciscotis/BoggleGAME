@@ -1,7 +1,6 @@
 import socket,threading,json
 from PyQt5 import QtCore, QtGui, QtWidgets
-from salas import ClassSalas
-import socket
+from salas import Ui_SalasDisponiveis
 class Rooms:
     def __init__(self,conexao):
         self.conexao = conexao
@@ -14,20 +13,8 @@ class Rooms:
         for a,value in self.salas.items():
                 self.ui.listWidget.addItem(a)
 
-
-    def interface(self):
-        import sys
-        app = QtWidgets.QApplication(sys.argv)
-        Form = QtWidgets.QWidget()
-        self.ui = ClassSalas()
+    def interface(self,Form):
+        self.ui = Ui_SalasDisponiveis()
         self.ui.setupUi(Form)
         self.getSalas()
-        self.ui.btntest.clicked.connect(self.getSalas)
-        Form.show()
-        sys.exit(app.exec_())
-
-
-
-
-
-
+        self.ui.refresh.clicked.connect(self.getSalas)

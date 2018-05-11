@@ -54,6 +54,7 @@ class ClientThread(threading.Thread):
                         print(pers)
                         data_str = json.dumps(pers)
                         self.csocket.send(bytes(data_str, 'UTF-8'))
+
             elif(data.decode() == "Escolha"):
                 print(data.decode())
                 data = self.csocket.recv(16)

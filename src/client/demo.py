@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(733, 684)
+        Form.resize(733, 686)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -94,7 +94,6 @@ class Ui_Form(object):
         self.letra1.setDefault(False)
         self.letra1.setFlat(True)
         self.letra1.setObjectName("letra1")
-        self.letra1.clicked.connect(self.letra1clicked)
         self.gridLayout.addWidget(self.letra1, 0, 0, 1, 1)
         self.letra7 = QtWidgets.QPushButton(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
@@ -534,6 +533,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
+        self.k = _translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.temporestante.setFormat(_translate("Form", "%p segundos"))
         self.JogadoresSessao.setText(_translate("Form", "   Jogadores da Sessão"))
@@ -567,8 +567,5 @@ class Ui_Form(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:9pt; color:#3465a4;\">4 Letras - 4 Pontos</span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:9pt; color:#8ae234;\">5 ou mais Letras - 6 Pontos</span></p></body></html>"))
         self.sair.setText(_translate("Form", "SAIR"))
-    def letra1clicked(self):
-        return str(self.letra1.text())
 
 import resource_rc
-

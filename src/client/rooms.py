@@ -15,7 +15,8 @@ class Rooms:
         for a,value in self.salas.items():
                 self.ui.listWidget.addItem(a)
 
-    def interface(self,Form):
+    def interface(self,Form,nick):
+        self.nick = nick
         self.ui = Ui_SalasDisponiveis()
         self.ui.setupUi(Form)
         self.getSalas()
@@ -27,6 +28,6 @@ class Rooms:
             self.conexao.sendall(bytes("Escolha", 'UTF-8'))
             self.conexao.sendall(bytes(self.a.text(),'UTF-8'))
         self.Form = QtWidgets.QMainWindow()
-        self.wait.interface(self.Form,self.a.text())
+        self.wait.interface(self.Form,self.a.text(),self.nick)
         self.Form.show()
         self.ui.this.hide()

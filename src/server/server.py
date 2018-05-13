@@ -1,12 +1,26 @@
-import socket, threading,json,sys
+import socket, threading,json,sys,random
 salas = {"Sala 01": [],"Sala 02": [],"Sala 03": [],"Sala 04": [],"Sala 05": []}
 nicks = {}
+alfabeto = {1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F", 7: "G", 8: "H", 9: "I", 10: "J", 11: "K", 12: "L",
+                 13: "M", 14: "N", 15: "O", 16: "P", 17: "Q",
+                 18: "R", 19: "S", 20: "T", 21: "U", 22: "V", 23: "W", 24: "X", 25: "Y", 26: "Z"}
+rodadas = {}
+def sortear():
+    for i in range(1, 4):
+        sorteados = []
+        for l in range(0, 16):
+            num_rolled = random.randint(1, int(len(alfabeto)))
+            sorteados.append(alfabeto[num_rolled])
+        print(sorteados)
+        rodadas[int(i)]=sorteados
+        print(rodadas)
+
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
         threading.Thread.__init__(self)
         self.csocket = clientsocket
         print("New connection added: ", clientAddress)
-
+        sortear()
 
     def createroom(self,ip):
         tamanho = len(self.salas.keys())
@@ -63,10 +77,18 @@ class ClientThread(threading.Thread):
                     if(a == data.decode()):
                         salas[a].append(nicks[clientAddress[0]])
                         print(salas)
-
-
+            elif(data.decode() == "Sorteio"):
+                print(data.decode())
+                print(rodadas)
+                data_string = json.dumps(rodadas)
+                self.csocket.send(bytes(data_string, 'UTF-8'))
+            elif(data.decode() == "Begin"):
+                print(data.decode())
+                self.csocket.close()
+                break
     def next_power_of_2(self,x):
         return 1 if x == 0 else 2 ** (x - 1).bit_length()
+
 
 
 LOCALHOST = "127.0.0.1"

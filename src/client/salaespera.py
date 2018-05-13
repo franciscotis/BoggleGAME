@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_SalaEspera(object):
     def setupUi(self, Form):
+        self.this = Form
         Form.setObjectName("Form")
         Form.resize(623, 467)
         Form.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.483, y1:0.352273, x2:0.603, y2:0.943, stop:0 rgba(244, 222, 255, 255), stop:1 rgba(255, 255, 255, 255));")

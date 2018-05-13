@@ -42,7 +42,7 @@ class Ui_TelaIniti(object):
 
     def buttonAction(self):
         self.Form = QtWidgets.QMainWindow()
-        self.salas.interface(self.Form)
+        self.salas.interface(self.Form,self.textopess.toPlainText())
         self.Form.show()
         self.tela.hide()
 

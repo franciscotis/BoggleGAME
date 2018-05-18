@@ -43,9 +43,13 @@ class Ui_Form(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.temporestante = QtWidgets.QProgressBar(Form)
+        self.total = 180
         self.temporestante.setMaximum(180)
-        self.temporestante.setProperty("value", 180)
+        self.temporestante.setProperty("value", self.total)
         self.temporestante.setObjectName("temporestante")
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress)
+        self.timer.start(1000)
         self.horizontalLayout.addWidget(self.temporestante)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -531,11 +535,17 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+    def progress(self):
+        if self.total >= 0:
+            self.total -= 1
+            self.temporestante.setValue(self.total)
+            self.temporestante.setFormat(self.k("Form", "%m segundos"))
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         self.k = _translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.temporestante.setFormat(_translate("Form", "%p segundos"))
+        self.temporestante.setFormat(_translate("Form", "%m segundos"))
         self.JogadoresSessao.setText(_translate("Form", "   Jogadores da Sessão"))
         self.letra1.setText(_translate("Form", "A"))
         self.letra7.setText(_translate("Form", "G"))

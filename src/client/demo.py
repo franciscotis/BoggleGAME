@@ -10,6 +10,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
     def setupUi(self, Form):
+        self.letras = {1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True,
+                       11: True, 12: True, 13: True, 14: True, 15: True, 16: True}
+        self.texto = ""
         Form.setObjectName("Form")
         Form.resize(733, 686)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -531,8 +534,26 @@ class Ui_Form(object):
         self.sair.setObjectName("sair")
         self.horizontalLayout_4.addWidget(self.sair)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
-
+        self.botoes = [self.letra1,self.letra2,self.letra3,self.letra4,self.letra5,self.letra6,self.letra7,self.letra8,self.letra9,self.letra10,
+                       self.letra11,self.letra12,self.letra13,self.letra14,self.letra15,self.letra16]
         self.retranslateUi(Form)
+        self.letra1.clicked.connect(self.button1Action)
+        self.letra2.clicked.connect(self.button2Action)
+        self.letra3.clicked.connect(self.button3Action)
+        self.letra4.clicked.connect(self.button4Action)
+        self.letra5.clicked.connect(self.button5Action)
+        self.letra6.clicked.connect(self.button6Action)
+        self.letra7.clicked.connect(self.button7Action)
+        self.letra8.clicked.connect(self.button8Action)
+        self.letra9.clicked.connect(self.button9Action)
+        self.letra10.clicked.connect(self.button10Action)
+        self.letra11.clicked.connect(self.button11Action)
+        self.letra12.clicked.connect(self.button12Action)
+        self.letra13.clicked.connect(self.button13Action)
+        self.letra14.clicked.connect(self.button14Action)
+        self.letra15.clicked.connect(self.button15Action)
+        self.letra16.clicked.connect(self.button16Action)
+
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def progress(self):
@@ -540,6 +561,123 @@ class Ui_Form(object):
             self.total -= 1
             self.temporestante.setValue(self.total)
             self.temporestante.setFormat(self.k("Form", "%m segundos"))
+
+    def button1Action(self):
+        if self.letras[1]:
+            self.texto+=self.letra1.text()
+            self.inputjogador.setText(self.texto)
+            self.letra1.setEnabled(False)
+            self.letras[1] = False
+
+    def button2Action(self):
+        if self.letras[2]:
+            self.texto+=self.letra2.text()
+            self.inputjogador.setText(self.texto)
+            self.letra2.setEnabled(False)
+            self.letras[2] = False
+
+    def button3Action(self):
+        if self.letras[3]:
+            self.texto += self.letra3.text()
+            self.inputjogador.setText(self.texto)
+            self.letra3.setEnabled(False)
+            self.letras[3] = False
+
+    def button4Action(self):
+        if self.letras[4]:
+            self.texto += self.letra4.text()
+            self.inputjogador.setText(self.texto)
+            self.letra4.setEnabled(False)
+            self.letras[4] = False
+
+    def button5Action(self):
+        if self.letras[5]:
+            self.texto += self.letra5.text()
+            self.inputjogador.setText(self.texto)
+            self.letra5.setEnabled(False)
+            self.letras[5] = False
+
+    def button6Action(self):
+        if self.letras[6]:
+            self.texto += self.letra6.text()
+            self.inputjogador.setText(self.texto)
+            self.letra6.setEnabled(False)
+            self.letras[6] = False
+
+    def button7Action(self):
+        if self.letras[7]:
+            self.texto += self.letra7.text()
+            self.inputjogador.setText(self.texto)
+            self.letra7.setEnabled(False)
+            self.letras[7] = False
+
+    def button8Action(self):
+        if self.letras[8]:
+            self.texto += self.letra8.text()
+            self.inputjogador.setText(self.texto)
+            self.letra8.setEnabled(False)
+            self.letras[8] = False
+
+    def button9Action(self):
+        if self.letras[9]:
+            self.texto += self.letra9.text()
+            self.inputjogador.setText(self.texto)
+            self.letra9.setEnabled(False)
+            self.letras[9] = False
+
+    def button10Action(self):
+        if self.letras[10]:
+            self.texto += self.letra10.text()
+            self.inputjogador.setText(self.texto)
+            self.letra10.setEnabled(False)
+            self.letras[10] = False
+
+    def button11Action(self):
+        if self.letras[11]:
+            self.texto += self.letra11.text()
+            self.inputjogador.setText(self.texto)
+            self.letra11.setEnabled(False)
+            self.letras[11] = False
+
+    def button12Action(self):
+        if self.letras[12]:
+            self.texto += self.letra12.text()
+            self.inputjogador.setText(self.texto)
+            self.letra12.setEnabled(False)
+            self.letras[12] = False
+
+    def button13Action(self):
+        if self.letras[13]:
+            self.texto += self.letra13.text()
+            self.inputjogador.setText(self.texto)
+            self.letra13.setEnabled(False)
+            self.letras[13] = False
+
+    def button14Action(self):
+        if self.letras[14]:
+            self.texto += self.letra14.text()
+            self.inputjogador.setText(self.texto)
+            self.letra14.setEnabled(False)
+            self.letras[14] = False
+
+    def button15Action(self):
+        if self.letras[15]:
+            self.texto += self.letra15.text()
+            self.inputjogador.setText(self.texto)
+            self.letra15.setEnabled(False)
+            self.letras[15] = False
+
+    def button16Action(self):
+        if self.letras[16]:
+            self.texto += self.letra16.text()
+            self.inputjogador.setText(self.texto)
+            self.letra16.setEnabled(False)
+            self.letras[16] = False
+
+
+
+
+
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

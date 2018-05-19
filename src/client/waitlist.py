@@ -17,7 +17,7 @@ class Waitlist:
             dado = self.conexao.recv(1024)
             self.salas = json.loads(dado)
             self.count = len(self.salas)
-            if self.count==1 and self.begin == False:
+            if self.count==2 and self.begin == False:
                 self.begin = True
                 self.beginGame()
             print(self.salas)

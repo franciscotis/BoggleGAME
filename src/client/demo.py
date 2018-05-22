@@ -13,6 +13,7 @@ class Ui_Form(object):
         self.letras = {1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True, 10: True,
                        11: True, 12: True, 13: True, 14: True, 15: True, 16: True}
         self.texto = ""
+        self.this = Form
         Form.setObjectName("Form")
         Form.resize(733, 686)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)

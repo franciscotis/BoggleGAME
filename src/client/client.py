@@ -3,6 +3,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from demo import Ui_Form
 import time
 from pontuacao import Pontuacao
+from ranking import Ranking
+from collections import OrderedDict
 from itertools import product
 import socket
 import struct
@@ -31,9 +33,12 @@ class Client:
       self.rodada=1
       self.available = False
       self.pontojog = []
+      self.pontfinal = {}
 
     def interface(self,Form,nick,pessoas,rodadas):
         self.pessoas = pessoas
+        th = threading.Thread(target=self.multiServer)
+        th.start()
         self.nick = nick
         self.rodadas = rodadas
         self.ui = Ui_Form()
@@ -48,30 +53,30 @@ class Client:
         self.ui.btnenviar.clicked.connect(self.enviadados)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.checkRounds)
-        self.timer.start(1000)
+        self.timer.start(5000)
         self.parsedmsg = {}
 
 
-    def t(self):
-        self.ui.letra1.setEnabled(False)
-
     def checkRounds(self):
-        if self.ui.total ==160 and self.rodada <4:
-            th = threading.Thread(target=self.multiServer)
-            th.start()
+        if self.ui.total == 0 and self.rodada <3:
+            self.ui.total = 180
             self.multiClient(1)
-            time.sleep(2)
+            time.sleep(3)
             for keys in self.parsedmsg.keys():
                 if self.nick != keys:
                     self.tirapontua(self.parsedmsg[keys])
             self.multiClient(2)
-            time.sleep(2)
-            self.showScreen()
+            time.sleep(3)
             self.rodada+=1
             self.raffle(str(self.rodada))
-            self.ui.total = 180
-            #IF RODADA == 3
-
+            print("hi")
+            self.multiClient(3)
+            time.sleep(2)
+            self.showScreen()
+        if(self.rodada==3):
+            time.sleep(2)
+            self.finalizeScreen()
+            time.sleep(2)
     def load_words(self):
         try:
             filename = os.path.join(os.getcwd(),"words_alpha.dic")
@@ -85,29 +90,81 @@ class Client:
         self.sock.sendto(str(tipo).encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
         if(tipo == 1):
             self.parsedmsg[self.nick]= self.verdadeiros
+            print("parsed msg")
+            print(self.parsedmsg)
+            print(type(self.parsedmsg))
             data_string = json.dumps(self.parsedmsg)
             self.sock.sendto(data_string.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
         elif(tipo ==2):
             msg = self.nick+" -> "+str(self.pontuacao)+" pontos"
             self.sock.sendto(msg.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+        elif tipo ==3:
+            sg = str(self.nick)+","+str(self.pontuacao)
+            print("printando sg")
+            print(sg)
+            self.sock.sendto(sg.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+
     def multiServer(self):
         while True:
-            tipo = self.socks.recv(5).decode(encoding="utf-8", errors="strict")
+            tipo = self.socks.recv(2).decode(encoding="utf-8", errors="strict")
             if tipo=='1':
                 rcv = self.socks.recv(10240).decode(encoding="utf-8", errors="strict")
                 rrv = json.loads(rcv)
-                for i in rrv:
-                    self.parsedmsg[i] = rrv[i]
+                print(rrv)
+                print("printando rrv")
+                print(type(rrv))
+                print("out")
+                for i in rrv.keys():
+                    print("printando rrv "+ str(rrv[i]))
+                    self.parsedmsg[i] = []
+                    self.parsedmsg[i].append(rrv[i])
             elif tipo=='2':
                 self.pontojog.append(self.socks.recv(10240).decode(encoding="utf-8", errors="strict"))
+            elif tipo == '3':
+                a = self.socks.recv(10240).decode(encoding="utf-8", errors="strict")
+                print("printando a")
+                print(a)
+                lista = a.split(',')
+                print("printando lista")
+                print(lista)
+                self.pontfinal[lista[0]] = int(lista[1])
 
     def showScreen(self):
         self.Form = QtWidgets.QWidget()
         self.k = Pontuacao()
         self.k.setupUi(self.Form)
+        self.k.listWidget.clear()
         for i in self.pontojog:
             self.k.listWidget.addItem(i)
         self.Form.show()
+
+    def finalizeScreen(self):
+        self.Formulario = QtWidgets.QWidget()
+        self.m = Ranking()
+        self.m.setupUi(self.Formulario)
+        from operator import itemgetter
+        l = sorted(self.pontfinal.items(),key=itemgetter(1))
+        print("printando l em seguir")
+        print(l)
+        print(l[1][0])
+        print(l[0][1])
+        aa = []
+        for a in range(0,len(l)):
+            aa.append(str(l[a][0])+" com "+str(l[a][1])+" pontos")
+        print("printando aa em seguir")
+        print(aa)
+        print("printei")
+        print(type(aa))
+        print(reversed(aa))
+        m = []
+        for count,l in enumerate(reversed(aa)):
+            m.append(str(count+1)+"º lugar - > " + l)
+        print(m)
+        for k in m:
+            self.m.listWidget.addItem(k)
+        self.Formulario.show()
+        self.timer.stop()
+        self.ui.this.hide()
 
     def enviadados(self):
         for k in self.botoes:
@@ -191,8 +248,9 @@ class Client:
             print(i)
             if i in self.verdadeiros:
                 print("tttttt")
-                self.pontuacao -= self.pontua(i)
-                self.ui.pontosEdit.setText(self.ui.k("Form", str(self.pontuacao)))
+                if(self.pontuacao > 0):
+                    self.pontuacao -= self.pontua(i)
+                    self.ui.pontosEdit.setText(self.ui.k("Form", str(self.pontuacao)))
 
     def raffle(self,round):
         self.ui.letra1.setText(self.ui.k("Form", self.rodadas[round][0]))

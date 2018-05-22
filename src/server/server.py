@@ -1,4 +1,4 @@
-import socket, threading,json,sys,random
+import socket, threading,json,sys,random,os
 salas = {"Sala 01": [],"Sala 02": [],"Sala 03": [],"Sala 04": [],"Sala 05": []}
 nicks = {}
 alfabeto = {1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F", 7: "G", 8: "H", 9: "I", 10: "J", 11: "K", 12: "L",
@@ -92,10 +92,14 @@ class ClientThread(threading.Thread):
     def next_power_of_2(self,x):
         return 1 if x == 0 else 2 ** (x - 1).bit_length()
 
-
-
-LOCALHOST = "127.0.0.1"
-PORT = 8080
+def readJson():
+    filename = os.path.join(os.getcwd(), "../../serverdata.json")
+    with open(filename, "r") as read_file:
+        data = json.load(read_file)
+    return data
+data = readJson()
+LOCALHOST = data["IP"]
+PORT = data["PORT"]
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((LOCALHOST, PORT))

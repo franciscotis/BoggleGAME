@@ -13,11 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 127);</string>
+  </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>170</y>
+     <x>130</x>
+     <y>200</y>
      <width>151</width>
      <height>81</height>
     </rect>
@@ -61,10 +64,37 @@
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <strikeout>false</strikeout>
     </font>
    </property>
    <property name="text">
     <string>CRIE A SUA SALA</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Jogadores Por Sala</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>150</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
    </property>
   </widget>
  </widget>

@@ -9,6 +9,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from criarsala import Ui_CriarSala
 class Ui_SalasDisponiveis(object):
+        def __init__(self,conexao):
+            self.conexao = conexao
         def setupUi(self, SalasDisponiveis):
             self.this = SalasDisponiveis
             SalasDisponiveis.setObjectName("SalasDisponiveis")
@@ -48,7 +50,7 @@ class Ui_SalasDisponiveis(object):
 
         def buttonAction(self):
             self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_CriarSala()
+            self.ui = Ui_CriarSala(self.conexao)
             self.ui.setupUi(self.window)
             self.window.show()
 

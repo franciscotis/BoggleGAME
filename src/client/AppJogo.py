@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import json,os
 from initscreen import Ui_TelaIniti
 
-
 def readJson():
     print(os.path.abspath("serverdata.json"))
     filename = os.path.join(os.getcwd(), "serverdata.json")

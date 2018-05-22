@@ -4,18 +4,20 @@ import json,random
 from PyQt5 import  QtCore
 from client import Client
 class Waitlist:
-    def __init__(self,conexao):
+    def __init__(self,conexao,dadosconec):
         self.salas = []
         self.begin = False
         self.conexao = conexao
-        self.client = Client()
+        self.dadosconec = dadosconec
+        self.client = Client(self.dadosconec)
+
     def addToWaitList(self):
         if not self.begin:
             self.ui.listaEspera.clear()
             self.conexao.sendall(bytes("Espera", 'UTF-8'))
             self.conexao.sendall(bytes(self.tipo, 'UTF-8'))
             dado = self.conexao.recv(1024)
-            self.salas = json.loads(dado)
+            self.salas = json.loads(dado.decode())
             self.count = len(self.salas)
             if self.count==2 and self.begin == False:
                 self.begin = True

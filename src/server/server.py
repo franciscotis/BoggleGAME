@@ -1,4 +1,4 @@
-import socket, threading,json,sys,random,os
+import socket, threading,json,sys,random,os,time
 salas = {"Sala 01": [],"Sala 02": [],"Sala 03": [],"Sala 04": [],"Sala 05": []}
 nicks = {}
 alfabeto = {1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F", 7: "G", 8: "H", 9: "I", 10: "J", 11: "K", 12: "L",
@@ -6,6 +6,9 @@ alfabeto = {1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F", 7: "G", 8: "H", 9: "
                  18: "R", 19: "S", 20: "T", 21: "U", 22: "V", 23: "W", 24: "X", 25: "Y", 26: "Z"}
 vogais = {1:"A",2:"E",3:"I",4:"O",5:"U"}
 rodadas = {}
+tamanhoSala = {"Sala 01": 5 ,"Sala 02": 5,"Sala 03": 5,"Sala 04": 5,"Sala 05": 5}
+groupSala = {"Sala 01": '224.0.0.1' ,"Sala 02": '224.0.0.2',"Sala 03": '224.0.0.3',"Sala 04": '224.0.0.4',"Sala 05": '224.0.0.4'}
+help = 5
 def sortear():
     for i in range(1, 4):
         sorteados = []
@@ -50,9 +53,14 @@ class ClientThread(threading.Thread):
                 print(data)
                 data = self.csocket.recv(16)
                 print(data)
+                k = data.decode().split(",")
+                print(k)
                 self.csocket.send(bytes(msg, 'UTF-8'))
-                salas["Teste"] = []
-                salas[str(data.decode())] = []
+                salas[str(k[0])] = []
+                tamanhoSala[str(k[0])] = int(k[1])
+                groupSala[str(k[0])] = '224.0.0.'+help
+                help+=1
+                print("group sala " + groupSala)
                 print(salas)
             elif(data.decode() == "Nick"):
                 print(data)
@@ -78,9 +86,14 @@ class ClientThread(threading.Thread):
                 data = self.csocket.recv(16)
                 print(data)
                 for a,b in self.showrooms().items():
-                    if(a == data.decode()):
-                        salas[a].append(nicks[clientAddress[0]])
-                        print(salas)
+                    if(len(salas[a]) < tamanhoSala[a]):
+                        if(a == data.decode()):
+                            salas[a].append(nicks[clientAddress[0]])
+                            print(salas)
+                            self.csocket.send(bytes("yes", 'UTF-8'))
+                            self.csocket.send(bytes(groupSala[a], 'UTF-8'))
+                    else:
+                        self.csocket.send(bytes("no", 'UTF-8'))
             elif(data.decode() == "Sorteio"):
                 print(data.decode())
                 print(rodadas)

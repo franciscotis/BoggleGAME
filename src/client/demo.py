@@ -561,7 +561,7 @@ class Ui_Form(object):
         if self.total >= 0:
             self.total -= 1
             self.temporestante.setValue(self.total)
-            self.temporestante.setFormat(self.k("Form", "%m segundos"))
+            self.temporestante.setFormat(self.k("Form", "%.0f segundos" %self.total))
 
     def button1Action(self):
         if self.letras[1]:
@@ -678,13 +678,11 @@ class Ui_Form(object):
 
 
 
-
-
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         self.k = _translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.temporestante.setFormat(_translate("Form", "%m segundos"))
+        self.temporestante.setFormat(_translate("Form", "%.0f segundos" %self.total))
         self.JogadoresSessao.setText(_translate("Form", "   Jogadores da Sessão"))
         self.letra1.setText(_translate("Form", "A"))
         self.letra7.setText(_translate("Form", "G"))

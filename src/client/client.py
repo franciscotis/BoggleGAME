@@ -12,14 +12,14 @@ from os.path import abspath, exists
 import os, sys
 from collections import Counter
 import threading
-MCAST_GRP = '224.1.1.1'
+dadosconect = '224.0.0.1'
 MCAST_PORT = 5007
 from collections import Counter
 class Client:
 
-    def __init__(self):
+    def __init__(self,dadosconect):
         #sock - client | socks - server
-      mreq = struct.pack("4sl", socket.inet_aton(MCAST_GRP), socket.INADDR_ANY)
+      mreq = struct.pack("4sl", socket.inet_aton(dadosconect), socket.INADDR_ANY)
       self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
       self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
       self.socks = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -34,6 +34,7 @@ class Client:
       self.available = False
       self.pontojog = []
       self.pontfinal = {}
+      print(dadosconect)
 
     def interface(self,Form,nick,pessoas,rodadas):
         self.pessoas = pessoas
@@ -58,20 +59,20 @@ class Client:
 
 
     def checkRounds(self):
-        if self.ui.total == 0 and self.rodada <3:
+        if self.ui.total == 170 and self.rodada <3:
             self.ui.total = 180
             self.multiClient(1)
-            time.sleep(3)
+            time.sleep(1)
             for keys in self.parsedmsg.keys():
                 if self.nick != keys:
                     self.tirapontua(self.parsedmsg[keys])
             self.multiClient(2)
-            time.sleep(3)
+            time.sleep(1)
             self.rodada+=1
             self.raffle(str(self.rodada))
             print("hi")
             self.multiClient(3)
-            time.sleep(2)
+            time.sleep(1)
             self.showScreen()
         if(self.rodada==3):
             time.sleep(2)
@@ -87,22 +88,22 @@ class Client:
             print(str(e))
 
     def multiClient(self,tipo):
-        self.sock.sendto(str(tipo).encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+        self.sock.sendto(str(tipo).encode(encoding='utf_8', errors='strict'), (dadosconect, MCAST_PORT))
         if(tipo == 1):
             self.parsedmsg[self.nick]= self.verdadeiros
             print("parsed msg")
             print(self.parsedmsg)
             print(type(self.parsedmsg))
             data_string = json.dumps(self.parsedmsg)
-            self.sock.sendto(data_string.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+            self.sock.sendto(data_string.encode(encoding='utf_8', errors='strict'), (dadosconect, MCAST_PORT))
         elif(tipo ==2):
             msg = self.nick+" -> "+str(self.pontuacao)+" pontos"
-            self.sock.sendto(msg.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+            self.sock.sendto(msg.encode(encoding='utf_8', errors='strict'), (dadosconect, MCAST_PORT))
         elif tipo ==3:
             sg = str(self.nick)+","+str(self.pontuacao)
             print("printando sg")
             print(sg)
-            self.sock.sendto(sg.encode(encoding='utf_8', errors='strict'), (MCAST_GRP, MCAST_PORT))
+            self.sock.sendto(sg.encode(encoding='utf_8', errors='strict'), (dadosconect, MCAST_PORT))
 
     def multiServer(self):
         while True:

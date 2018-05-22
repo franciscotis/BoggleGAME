@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from rooms import Rooms
-import socket,sys,json
+import socket,sys,json,time
 class Ui_TelaIniti(object):
     def __init__(self, ip, porta):
         self.conexao = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,18 +37,17 @@ class Ui_TelaIniti(object):
         self.btnentrar.setObjectName("btnentrar")
         self.retranslateUi(TelaIniti)
         QtCore.QMetaObject.connectSlotsByName(TelaIniti)
-        self.btnentrar.clicked.connect(self.enviaDadoServidor)
         self.btnentrar.clicked.connect(self.buttonAction)
 
     def buttonAction(self):
+        self.conexao.sendall(bytes("Nick", 'UTF-8'))
+        self.conexao.sendall(bytes(self.textopess.toPlainText(), 'UTF-8'))
+        time.sleep(2)
         self.Form = QtWidgets.QMainWindow()
         self.salas.interface(self.Form,self.textopess.toPlainText())
         self.Form.show()
         self.tela.hide()
 
-    def enviaDadoServidor(self):
-        self.conexao.sendall(bytes("Nick", 'UTF-8'))
-        self.conexao.sendall(bytes(self.textopess.toPlainText(), 'UTF-8'))
 
     def retranslateUi(self, TelaIniti):
         _translate = QtCore.QCoreApplication.translate

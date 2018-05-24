@@ -558,7 +558,7 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def progress(self):
-        if self.total >= 0:
+        if self.total > 0:
             self.total -= 1
             self.temporestante.setValue(self.total)
             self.temporestante.setFormat(self.k("Form", "%.0f segundos" %self.total))

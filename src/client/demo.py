@@ -531,9 +531,6 @@ class Ui_Form(object):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem8)
-        self.sair = QtWidgets.QPushButton(Form)
-        self.sair.setObjectName("sair")
-        self.horizontalLayout_4.addWidget(self.sair)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.botoes = [self.letra1,self.letra2,self.letra3,self.letra4,self.letra5,self.letra6,self.letra7,self.letra8,self.letra9,self.letra10,
                        self.letra11,self.letra12,self.letra13,self.letra14,self.letra15,self.letra16]
@@ -713,6 +710,6 @@ class Ui_Form(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:9pt; color:#ef2929;\">3 Letras - 1 Ponto</span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:9pt; color:#3465a4;\">4 Letras - 4 Pontos</span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:9pt; color:#8ae234;\">5 ou mais Letras - 6 Pontos</span></p></body></html>"))
-        self.sair.setText(_translate("Form", "SAIR"))
+
 
 import resource_rc

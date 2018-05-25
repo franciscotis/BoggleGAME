@@ -28,9 +28,11 @@ class Waitlist:
             self.conexao.sendall(bytes("Espera", 'UTF-8')) #envia "Espera" para o servidor
             self.conexao.sendall(bytes(self.tipo, 'UTF-8')) #Envia o nome da sala para o servidor
             dado = self.conexao.recv(1024) #recebe dados do servidor
+            dado2 = self.conexao.recv(1024)  # recebe dados do servidor
+            tamanhoSala = dado2.decode()
             self.salas = json.loads(dado.decode()) #Deserializa os dados
             self.count = len(self.salas) #o contador é o tamanho da sala
-            if self.count==2 and self.begin == False: #Se for igual a 2 e não tiver começado
+            if self.count==int(tamanhoSala) and self.begin == False: #Se for igual a 2 e não tiver começado
                 self.begin = True #Indica que o jogo começou
                 self.beginGame() #O jogo começa
             for a in self.salas:
@@ -51,6 +53,7 @@ class Waitlist:
         self.rodadas = self.rollDice()
         self.client.interface(self.Form, self.nick,self.salas,self.rodadas)
         self.conexao.sendall(bytes("Begin", 'UTF-8'))
+        self.conexao.sendall(bytes(self.tipo, 'UTF-8'))
         self.conexao.close()
         self.Form.show()
         self.ui.this.hide()

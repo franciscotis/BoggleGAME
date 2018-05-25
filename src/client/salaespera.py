@@ -41,9 +41,6 @@ class Ui_SalaEspera(object):
         self.icon.setStyleSheet("image: url(:/newPrefix/img/BoggleIcon.png);")
         self.icon.setText("")
         self.icon.setObjectName("icon")
-        self.btnComecar = QtWidgets.QPushButton(Form)
-        self.btnComecar.setGeometry(QtCore.QRect(540, 430, 75, 23))
-        self.btnComecar.setObjectName("btnComecar")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -52,6 +49,5 @@ class Ui_SalaEspera(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.nomeespera.setText(_translate("Form", "SALA DE ESPERA"))
-        self.btnComecar.setText(_translate("Form", "COMEÇAR"))
 
 import resource_rc

@@ -15,12 +15,10 @@ from demo import Ui_Form
 from pontuacao import Pontuacao
 from ranking import Ranking
 MCAST_PORT = 5007
-
 class Client: #Classe onde contém o jogo
 
     def __init__(self,dadosconect): #Construtor
       self.conecc = dadosconect #DadosConect é o endereço do grupo multicast
-
 
       #Abaixo contém a declaração de self.sock, que é o cliente que estará no grupo multicast
       self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -29,7 +27,7 @@ class Client: #Classe onde contém o jogo
       self.socks = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
       self.socks.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
       self.socks.bind(('', MCAST_PORT))
-      mreq = struct.pack("4sL", socket.inet_aton(self.conecc), socket.INADDR_ANY)
+      mreq = struct.pack("4sl", socket.inet_aton(self.conecc), socket.INADDR_ANY)
       self.socks.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
         #Como o cliente também é servidor, está utilizando uma arquitetura p2p
       self.pontuacao = 0
@@ -63,7 +61,7 @@ class Client: #Classe onde contém o jogo
 
 
     def checkRounds(self): #Verifica se uma rodada acabou
-        if self.ui.total == 165 and self.rodada <4: #Caso a tempo restante seja 0 e a rodada seja menor que 3
+        if self.ui.total == 120 and self.rodada <4: #Caso a tempo restante seja 0 e a rodada seja menor que 3
             self.pontojog.clear() #Limpa o vetor de pontuação dos jogadores
             self.ui.total = 180 #Digo que o total é 180
             time.sleep(2) #Espera um tempo
@@ -73,18 +71,18 @@ class Client: #Classe onde contém o jogo
             time.sleep(2) #espera um tempo
             for keys in self.parsedmsg.keys():
                 if self.nick != keys:
+                    print("indo tirar pontos hehehe")
+                    print(self.parsedmsg)
                     self.tirapontua(self.parsedmsg[keys]) #A partir das mensagens recebidas pelos outros jogadores,
                     # essa é a checagem feita para descontar os pontos se as palavras forem iguais
             time.sleep(3) #espera um tempo
             self.multiClient(2) #Envia 2 vezes a mesma informação, que é a pontuação atual do jogador
-            self.multiClient(2)
             time.sleep(2) #Espera um tempo
             self.rodada+=1 #Aumenta a rodada
             if(self.rodada<=3):
                 self.raffle(str(self.rodada)) #Embaralha os dados
             time.sleep(3) #Espera um tempo
             self.multiClient(3) #Envia 2 vezes a mesma informação, que é a pontuação do jogador
-            self.multiClient(3)
             time.sleep(3) #Espera um tempo
             self.showScreen() #Mostra a tela
         if(self.rodada==4): #Caso tenha passado 3 rodadas
@@ -106,9 +104,6 @@ class Client: #Classe onde contém o jogo
         self.sock.sendto(str(tipo).encode(encoding='utf_8', errors='strict'), (self.conecc, MCAST_PORT)) #Envia o tipo para o servidor
         if(tipo == 1): #Se o tipo for 1
             self.parsedmsg[self.nick]= self.verdadeiros #Associa as palavras verdadeiras a um usuário e armazenando em um hash map
-            print("parsed msg")
-            print(self.parsedmsg)
-            print(type(self.parsedmsg))
             data_string = json.dumps(self.parsedmsg) #Serializa o dicionário
             self.sock.sendto(data_string.encode(encoding='utf_8', errors='strict'), (self.conecc, MCAST_PORT)) #Envia para o servidor
         elif(tipo ==2): #Caso o tipo for 2
@@ -116,37 +111,23 @@ class Client: #Classe onde contém o jogo
             self.sock.sendto(msg.encode(encoding='utf_8', errors='strict'), (self.conecc, MCAST_PORT)) #Envia para o servidor
         elif tipo ==3: #Se o tipo for 3
             sg = str(self.nick)+","+str(self.pontuacao) #Envia o nick do jogador com a sua pontuação
-            print("printando sg")
-            print(sg)
             self.sock.sendto(sg.encode(encoding='utf_8', errors='strict'), (self.conecc, MCAST_PORT)) #Envia para o servidor
 
     def multiServer(self): #Método com as ações do servidor
         while True: #Loop infinito
             tipo = self.socks.recv(2).decode(encoding="utf-8", errors="strict") #Recebe o tipo do cliente
-            print("printando tipo")
-            print(tipo)
             if tipo=='1': #Se o tipo for 1
                 rcv = self.socks.recv(10240).decode(encoding="utf-8", errors="strict")  #Recebe os dados
                 rrv = json.loads(rcv) #Deserializa os dados
-                print(rrv)
-                print("printando rrv")
-                print(type(rrv))
-                print("out")
-                for i in rrv.keys(): #Percorre o hashmap
-                    print("printando rrv "+ str(rrv[i]))
-                    self.parsedmsg[i] = [] # Cria uma nova chave e um valor, associados com o nick
-                    self.parsedmsg[i].append(rrv[i]) #Adiciona todas as palavras encontradas nela na hash
+                for i in rrv: #Percorre o hashmap
+                    self.parsedmsg[i]= rrv[i] #Adiciona todas as palavras encontradas nela na hash
             elif tipo=='2': #Caso o tipo for 2
                 msg = self.socks.recv(10240).decode(encoding="utf-8", errors="strict") #Recebe o dado
                 if not msg in self.pontojog: #Se a mensagem recebida não estiver no vetor de pontuação
                     self.pontojog.append(msg) #Coloca a mensagem no vetor
             elif tipo == '3': #Caso o tipo for 3
                 a = self.socks.recv(10240).decode(encoding="utf-8", errors="strict") #Recebe o dado
-                print("printando a")
-                print(a)
                 lista = a.split(',') #Fatia a string pela virgula e coloca em um vetor
-                print("printando lista")
-                print(lista)
                 self.pontfinal[lista[0]] = int(lista[1]) #Adiciona a pontuação e o nick do jogador em uma hash
 
     def showScreen(self): #Método que mostra a tela de jogo
@@ -164,20 +145,12 @@ class Client: #Classe onde contém o jogo
         self.m.setupUi(self.Formulario)
         from operator import itemgetter
         l = sorted(self.pontfinal.items(),key=itemgetter(1))  #Ordena a hash com base na pontuação [ ordenação em ordem decrescente
-        print("printando l em seguir")
-        print(l)
         aa = []
         for a in range(0,len(l)):
             aa.append(str(l[a][0])+" com "+str(l[a][1])+" pontos") #Adiciona no vetor de pontuação
-        print("printando aa em seguir")
-        print(aa)
-        print("printei")
-        print(type(aa))
-        print(reversed(aa))
         m = []
         for count,l in enumerate(reversed(aa)):
             m.append(str(count+1)+"º lugar - > " + l) #Coloca o array ao contrário na lista de ganhadores
-        print(m)
         for k in m:
             self.m.listWidget.addItem(k) #adiciona na lista
         self.Formulario.show() #Mostra a lista de ganhadores

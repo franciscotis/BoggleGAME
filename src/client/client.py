@@ -61,7 +61,7 @@ class Client: #Classe onde contém o jogo
 
 
     def checkRounds(self): #Verifica se uma rodada acabou
-        if self.ui.total == 120 and self.rodada <4: #Caso a tempo restante seja 0 e a rodada seja menor que 3
+        if self.ui.total == 0 and self.rodada <4: #Caso a tempo restante seja 0 e a rodada seja menor que 3
             self.pontojog.clear() #Limpa o vetor de pontuação dos jogadores
             self.ui.total = 180 #Digo que o total é 180
             time.sleep(2) #Espera um tempo
@@ -71,7 +71,6 @@ class Client: #Classe onde contém o jogo
             time.sleep(2) #espera um tempo
             for keys in self.parsedmsg.keys():
                 if self.nick != keys:
-                    print("indo tirar pontos hehehe")
                     print(self.parsedmsg)
                     self.tirapontua(self.parsedmsg[keys]) #A partir das mensagens recebidas pelos outros jogadores,
                     # essa é a checagem feita para descontar os pontos se as palavras forem iguais

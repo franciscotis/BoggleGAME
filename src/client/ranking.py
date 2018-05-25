@@ -65,9 +65,6 @@ class Ranking(object):
         self.listWidget.setResizeMode(QtWidgets.QListView.Fixed)
         self.listWidget.setLayoutMode(QtWidgets.QListView.SinglePass)
         self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.listWidget.addItem(item)
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(220, 330, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -81,8 +78,6 @@ class Ranking(object):
         self.label.setText(_translate("Form", "RANKING"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("Form", "A"))
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton.setText(_translate("Form", "Voltar"))
 
